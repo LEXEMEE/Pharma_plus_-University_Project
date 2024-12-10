@@ -2,7 +2,7 @@
 This was a basic pharmacy management system for my University project
 #Tentative Features List for Medicine Delivery System
  0.1 Flask Project structured flowing(enforcing) MVC pattern
- ├── models // => M
+```├── models // => M
 │   ├── other.py
 │   ├── product.py
 │   └── user.py
@@ -25,7 +25,7 @@ This was a basic pharmacy management system for my University project
 │   ├── pharma_plus.py
 │   ├── products.py
 │   ├── search.py
-│   └── users.py
+│   └── users.py```
 
 #Setup(once)
 # 1. Clone repository
