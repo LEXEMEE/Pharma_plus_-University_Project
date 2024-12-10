@@ -1,0 +1,33 @@
+<!-- prettier-ignore -->
+<div class="fixed top-0 left-1/2 transform -translate-x-1/2 p-6 flash-message z-50" style="width: 50vw;">
+{% with flash_messages = get_flashed_messages(category_filter=["warning","error"]) %}
+  {% if flash_messages %}
+    {%- for msg in flash_messages %}
+      <div role="alert" class="alert p-4 bg-red-500">
+        <span>{{msg}}</span>
+      </div>
+    {% endfor -%}
+  {% endif %}
+{% endwith %}
+</div>
+
+<!-- prettier-ignore -->
+<div class="fixed top-0 left-1/2 transform -translate-x-1/2 p-6 flash-message z-50" style="width: 50vw;">
+{% with flash_messages = get_flashed_messages(category_filter=["success","info"]) %}
+  {% if flash_messages %}
+    {%- for msg in flash_messages %}
+      <div role="alert" class="alert p-4 bg-green-500">
+        <span>{{msg}}</span>
+      </div>
+    {% endfor -%}
+  {% endif %}
+{% endwith %}
+</div>
+
+<script defer>
+  $(document).ready(function () {
+    setTimeout(function () {
+      $(".flash-message").fadeOut("slow");
+    }, 2000);
+  });
+</script>

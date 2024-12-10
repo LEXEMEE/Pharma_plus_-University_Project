@@ -1,0 +1,155 @@
+<!-- prettier-ignore -->
+{% extends 'components/layout.html' %}
+{% block content %}
+
+<div class="mx-auto max-w-xl overflow-hidden rounded-lg bg-white shadow-lg">
+  <img class="h-64 w-full object-contain pt-4" src="{{ product.image_url }}" alt="{{ product.name }}" />
+  <div class="p-4">
+    <table class="w-full table-auto border border-gray-300">
+      <tbody>
+        <tr>
+          <td class="border-b border-r border-gray-300 font-bold text-gray-900">Name</td>
+          <td class="border-b border-gray-300 pl-2">{{ product.name }}</td>
+        </tr>
+        <tr>
+          <td class="border-b border-r border-gray-300 font-bold text-gray-900">Description</td>
+          <td class="border-b border-gray-300 pl-2">{{ product.description }}</td>
+        </tr>
+        <tr>
+          <td class="border-b border-r border-gray-300 font-bold text-gray-900">Price</td>
+          <td class="border-b border-gray-300 pl-2">{{ product.price }}</td>
+        </tr>
+        <tr>
+          <td class="border-b border-r border-gray-300 font-bold text-gray-900">Stock</td>
+          <td class="border-b border-gray-300 pl-2">{{ product.stock }}</td>
+        </tr>
+        <tr>
+          <td class="border-b border-r border-gray-300 font-bold text-gray-900">Brand Name</td>
+          <td class="border-b border-gray-300 pl-2">{{ product.brand_name }}</td>
+        </tr>
+        {% if product.is_medicine %}
+        <tr>
+          <td class="border-b border-r border-gray-300 font-bold text-gray-900">Category</td>
+          <td class="border-b border-gray-300 pl-2">{{ product.category }}</td>
+        </tr>
+        <tr>
+          <td class="border-b border-r border-gray-300 font-bold text-gray-900">Generic Name</td>
+          <td class="border-b border-gray-300 pl-2">{{ product.generic_name }}</td>
+        </tr>
+        <tr>
+          <td class="border-b border-r border-gray-300 font-bold text-gray-900">Strength</td>
+          <td class="border-b border-gray-300 pl-2">{{ product.strength }}</td>
+        </tr>
+        <tr>
+          <td class="border-b border-r border-gray-300 font-bold text-gray-900">Dosage</td>
+          <td class="border-b border-gray-300 pl-2">{{ product.dosage }}</td>
+        </tr>
+        <tr>
+          <td class="border-b border-r border-gray-300 font-bold text-gray-900">Prescription Required</td>
+          <td class="border-b border-gray-300 pl-2">{{ 'Yes' if product.is_prescription_required else 'No' }}</td>
+        </tr>
+        <tr>
+          <td class="border-b border-r border-gray-300 font-bold text-gray-900">Side Effects</td>
+          <td class="border-b border-gray-300 pl-2">{{ product.side_effects }}</td>
+        </tr>
+        <tr>
+          <td class="border-b border-r border-gray-300 font-bold text-gray-900">Uses</td>
+          <td class="border-b border-gray-300 pl-2">{{ product.uses }}</td>
+        </tr>
+        {% endif %} {% if product.is_supplement %}
+        <tr>
+          <td class="border-b border-r border-gray-300 font-bold text-gray-900">Supplement Type</td>
+          <td class="border-b border-gray-300 pl-2">{{ product.supplement_type }}</td>
+        </tr>
+        {% endif %}
+      </tbody>
+    </table>
+    <div class="mb-4 mt-4 flex justify-evenly">
+      <!-- prettier-ignore -->
+      {% if session.current_user and session.current_user['_is_authenticated'] %}
+      {% if session.current_user['_is_customer'] %}
+      {% if Cart.is_product_in_cart(product.id) %}
+      <div class="flex items-center justify-between">
+        <div class="grid flex-1 grid-cols-3 gap-4">
+          <a class="btn btn-primary flex items-center justify-center rounded bg-blue-500 py-2 text-white" href="{{ url_for('cart.decrease',product_id=product.id ) }}">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14" />
+            </svg>
+          </a>
+          <button class="btn btn-secondary flex items-center justify-center rounded bg-blue-600 py-2 text-black">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"
+              />
+            </svg>
+            {{Cart.get_product_quantity(product.id)}}
+          </button>
+          <a class="btn btn-primary flex items-center justify-center rounded bg-blue-500 py-2 text-white" href="{{ url_for('cart.increase',product_id=product.id ) }}">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+            </svg>
+          </a>
+        </div>
+        <a class="btn btn-info ml-4 rounded bg-blue-600 px-4 py-2 text-white" href="{{ url_for('cart.show_cart' ) }}">Check Out</a>
+      </div>
+
+      <!-- up updated -->
+      <!--
+      <a class="btn btn-primary" href="{{ url_for('cart.decrease',product_id=product.id ) }}">Decrease</a>
+      <button class="btn btn-secondary">In Cart: {{Cart.get_product_quantity(product.id)}}</button>
+      <a class="btn btn-primary" href="{{ url_for('cart.increase',product_id=product.id ) }}">Increase</a>
+      <a class="btn btn-info" href="{{ url_for('cart.show_cart' ) }}">Check Out</a>
+      -->
+      {% else %}
+
+      <a class="btn btn-primary" href="{{ url_for('cart.add_to_cart',product_id=product.id ) }}">Add to Cart</a>
+      {% endif %}
+      <!-- prettier-ignore -->
+      {% elif session.current_user['_is_admin'] %}
+      <div x-data="{ open: false }" class="flex w-full flex-col justify-center">
+        <button @click="open = ! open" class="btn btn-primary block">Update Stock</button>
+
+        <div x-show="open">
+          <form action="{{ url_for('products.add_inventory',product_id=product.id ) }}" method="POST" class="mx-auto bg-sky-200 p-4">
+            <div class="mb-4">
+              <label class="mb-2 block text-sm font-bold text-gray-700" for="new_stock"> New Stock </label>
+              <input
+                class="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
+                id="new_stock"
+                name="new_stock"
+                type="number"
+                placeholder="New Stock"
+                required
+              />
+            </div>
+            <div class="mb-4">
+              <label class="mb-2 block text-sm font-bold text-gray-700" for="expire_date"> Expire Date </label>
+              <input
+                class="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
+                id="expire_date"
+                name="expire_date"
+                type="date"
+                required
+                placeholder="Expire Date"
+              />
+            </div>
+            <div class="flex justify-center">
+              <button type="submit" class="btn btn-outline btn-primary">Update Now</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <!-- prettier-ignore -->
+      {% endif %}
+      {% else %}
+      <a class="btn btn-ghost btn-outline" href="{{ url_for('users.login') }}">Add To Cart</a>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<!--  -->
+
+{% endblock content%}
